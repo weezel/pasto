@@ -1,0 +1,14 @@
+run:
+linters-settings:
+  gocritic:
+    disabled-checks:
+      - ifElseChain
+      - singleCaseSwitch
+linters:
+  enable:
+    - gosec
+    - maligned
+    - gocritic
+output:
+  # Sort results by: filepath, line and column.
+  sort-results: true
