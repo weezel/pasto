@@ -12,7 +12,7 @@ CGO_ENABLED	?= 1
 
 build: test lint
 	CGO_ENABLED=$(CGO_ENABLED) GOOS=$(GOOS) GOARCH=$(GOARCH) \
-	     $(GO) build $(LDFLAGS) -o $(BINARY)_$(GOOS)_$(GOARCH)
+	     $(GO) build $(LDFLAGS) -o build/$(BINARY)_$(GOOS)_$(GOARCH) cmd/pasto/pasto.go
 
 lint:
 	golangci-lint run ./...
@@ -27,5 +27,5 @@ test:
 	go test ./...
 
 clean:
-	rm -f $(BINARY) $(BINARY)_linux_amd64 $(BINARY)_openbsd_amd64
+	-rm -rf build/
 
