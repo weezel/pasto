@@ -21,8 +21,9 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", httpserver.RootHandler)
 	httpServ := &http.Server{
-		Addr:    ":" + listenPort,
-		Handler: mux,
+		Addr:              ":" + listenPort,
+		Handler:           mux,
+		ReadHeaderTimeout: 60 * time.Second,
 	}
 
 	go func() {
