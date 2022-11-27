@@ -7,7 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"pasto/httpserver"
-	"pasto/logger"
+	. "pasto/logger"
 	"syscall"
 	"time"
 )
@@ -27,9 +27,10 @@ func main() {
 	}
 
 	go func() {
-		logger.Info(httpServ.ListenAndServe())
+		Logger.Info().Err(httpServ.ListenAndServe()).
+			Msg("Initiating shutdown")
 	}()
-	logger.Infof("Listening on listenPort %s", listenPort)
+	Logger.Info().Msgf("Listening on port %s", listenPort)
 
 	// Graceful shutdown for HTTP server
 	done := make(chan os.Signal, 1)
@@ -37,7 +38,7 @@ func main() {
 	<-done
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	logger.Infof("HTTP server stopping")
+	Logger.Info().Msg("HTTP server stopping")
 	defer cancel()
-	logger.Fatal(httpServ.Shutdown(ctx))
+	Logger.Info().Err(httpServ.Shutdown(ctx)).Msg("HTTP server stopped")
 }
